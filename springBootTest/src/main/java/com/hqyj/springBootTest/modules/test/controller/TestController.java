@@ -4,12 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hqyj.springBootTest.modules.test.vo.ConfigBean;
 
-@RestController
+@Controller
 @RequestMapping("/test")
 public class TestController {
 	
@@ -29,6 +32,7 @@ public class TestController {
 	private ConfigBean configbean;
 	
 	@RequestMapping("/config")
+	@ResponseBody
 	public String configTest() {
 		StringBuffer sbBuffer = new StringBuffer();
 		sbBuffer.append(port).append("--").
@@ -44,6 +48,7 @@ public class TestController {
 		
 	}
 	@RequestMapping("/log")
+	@ResponseBody
 	public String logTest() {
 		LOGGER.trace("trace");
 		LOGGER.debug("debug");
@@ -54,7 +59,14 @@ public class TestController {
 	}
 	
 	@RequestMapping("/demo1")
+	@ResponseBody
 	public String demoDesc() {
 		return "helloWorld!";
+	}
+	
+	@RequestMapping("/index")
+	public String testIndexPage(ModelMap modelMap) {
+		modelMap.addAttribute("template", "test/index");
+		return "index";
 	}
 }
