@@ -66,7 +66,7 @@ public class CountryController {
 	/*
 	 * localhost:8089/cityUpdate
 	 */
-	@PutMapping(value = "/cityUpdate",consumes = "application/x-www-form-urlencoded")
+	@PostMapping(value = "/cityUpdate",consumes = "application/x-www-form-urlencoded")
 	public City updateCity(@ModelAttribute City city) {
 		cs.updateCity(city);
 		return city;

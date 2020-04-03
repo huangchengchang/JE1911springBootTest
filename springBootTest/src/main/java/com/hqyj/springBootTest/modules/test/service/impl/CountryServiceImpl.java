@@ -60,7 +60,6 @@ public class CountryServiceImpl implements CountryService{
 	@Override
 	public City updateCity(City city) {
 		cd.updateCity(city);
-		int i = 1/0;
 		return city;
 	}
 
