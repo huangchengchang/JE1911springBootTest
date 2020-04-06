@@ -2,14 +2,22 @@
 This is test module page.
 
 	<p>==================================================================</p>
-	<p th:text="${message}"></p>
-	<p>ÉÏ´«ÎÄ¼þ£¬Ê¹ÓÃmultipart/form-dataÀàÐÍ</p>
-	<form action="/test/upload" method="post" enctype="multipart/form-data">
-		<input type="file" name="file">
-		<button type="submit">ÉÏ´«</button>
-	</form>
+	<h3>file upload and downlod</h3>
+	<a href="/test/download1?fileName=é»„æ‰¿æ˜Œ.xls">download file</a>
 	<br>
 	
+	<p th:text="${message}"></p>
+	<p>ä¸Šä¼ æ–‡ä»¶ï¼Œä½¿ç”¨multipart/form-dataç±»åž‹</p>
+	<form action="/test/upload" method="post" enctype="multipart/form-data">
+		<input type="file" name="file">
+		<button type="submit">ä¸Šä¼ </button>
+	</form>
+	<br>
+	<form action="/test/uploadBatchFile" method="post" enctype="multipart/form-data">
+		<input type="file" name="files">
+		<input type="file" name="files">
+		<button type="submit">ä¸Šä¼ </button>
+	</form>
 	<p>==================================================================</p>
 	<h3>th:text</h3>
 	<h1 th:text="${thymeleafTitle}"></h1>
@@ -45,7 +53,7 @@ This is test module page.
 	<p>==================================================================</p>
 		
 	<h3>post form, th:action, th:object, th:field</h3>
-	<!-- ÎÒÃÇ¿ÉÒÔÖ¸¶¨ÊÇGET»¹ÊÇPOSTÇëÇó,ÕâÀïÐèÒª×¢ÒâµÄÊÇÓÐµÄä¯ÀÀÆ÷²¢²»Ö§³ÖPUTÇëÇó,SpringMVCÎªÎÒÃÇÌá¹©ÁËÒ»ÖÖ½â¾ö·½°¸,Ìí¼ÓhiddenÖ¸¶¨method -->
+	<!-- ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½GETï¿½ï¿½ï¿½ï¿½POSTï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òª×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½PUTï¿½ï¿½ï¿½ï¿½,SpringMVCÎªï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½Ò»ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½hiddenÖ¸ï¿½ï¿½method -->
 	<form th:action="${updateCityUri}" method="post" th:object="${city}">
 		<!-- <input type="hidden" name="_method" value="PUT"> -->
 	    City Id:			<input th:field="*{cityId}" readonly/>
