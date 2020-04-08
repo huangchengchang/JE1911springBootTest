@@ -1,17 +1,17 @@
 package com.hqyj.springBootTest.modules.account.vo;
 
 public class Result {
-	private String status;
+	private int status;
 	private String message;
 	private Object object;
 
-	public Result(String status, String message) {
+	public Result(int status, String message) {
 		super();
 		this.status = status;
 		this.message = message;
 	}
 
-	public Result(String status, String message, Object object) {
+	public Result(int status, String message, Object object) {
 		super();
 		this.status = status;
 		this.message = message;
@@ -23,11 +23,11 @@ public class Result {
 		return "Result [status=" + status + ", message=" + message + ", object=" + object + "]";
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -46,5 +46,15 @@ public class Result {
 	public void setObject(Object object) {
 		this.object = object;
 	}
-
+	
+	
+	public enum ResultStatus {
+		SUCCESS(200),FAILED(500);
+		
+		public int status;
+		
+		private ResultStatus(int status) {
+			this.status = status;
+		}
+	}
 }

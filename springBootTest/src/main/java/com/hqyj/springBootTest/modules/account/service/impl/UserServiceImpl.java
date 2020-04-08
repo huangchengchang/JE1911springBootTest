@@ -1,75 +1,64 @@
 package com.hqyj.springBootTest.modules.account.service.impl;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hqyj.springBootTest.modules.account.dao.UserDao;
 import com.hqyj.springBootTest.modules.account.entity.User;
-import com.hqyj.springBootTest.modules.account.entity.UserRole;
 import com.hqyj.springBootTest.modules.account.service.UserService;
-import com.hqyj.springBootTest.modules.test.util.MD5Util;
-import com.hqyj.springBootTest.modules.test.vo.Result;
+import com.hqyj.springBootTest.modules.account.vo.Result;
+import com.hqyj.springBootTest.modules.account.vo.Result.ResultStatus;
 @Service
 public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserDao ud;
-	
+	/**
+	 * 注册
+	 */
 	@Override
-	public User selectUser(String userName) {
-		// TODO Auto-generated method stub
-		return ud.selectUser(userName);
-	}
-
-	@Override
-	public Result login(User user) {
-		Subject subject = SecurityUtils.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
-		try {
-			subject.login(token);
-			User u = (User) SecurityUtils.getSubject().getSession().getAttribute("u");
-			if (u == null) {
-				return new Result("500", "账号不存在！");
-			}
-			subject.checkRoles();
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
-			return new Result("500", "账号密码错误！");
+	public Result insertUser(User user) {
+		Result result = new Result(ResultStatus.SUCCESS.status,"");
+		
+		User user1 = ud.selectUserByUserName(user.getUserName());
+		if (user1 != null) {
+				result.setStatus(ResultStatus.FAILED.status);
+				result.setMessage("该用户已存在！");
+				return result;
 		}
-		return new Result("200", "success");
+		
+		user.setCreateDate(new Date());
+		ud.adduser(user);
+		
+		return result;
 	}
 
 	@Override
-	public Result registerUser(User user) {
-		// 判断该用户名是否已经存在
-				User u = ud.selectUserByUserName(user.getUserName());
-				if (u != null) {
-					return new Result("400", "该用户名已存在！");
-				} else {
-					// 对密码加密
-				String Password = new MD5Util().getPasswordByMD5(user.getPassword(), user.getUserName());
-				user.setPassword(Password);
-					int num = ud.adduser(user);
-					if (num > 0) {
-						System.out.println(user.getUserId() + "@@@@@@@@@@@@@@@@");
-						UserRole ur = new UserRole();
-						ur.setUserId(user.getUserId());
-						ur.setRoleId(4);
-						int num1 = ud.insertUserAndRole(ur);
-						if (num1 > 0) {
-							return new Result("200", "success");
-						} else {
-							return new Result("500", "角色初始化失败！");
-						}
-
-					} else {
-						return new Result("500", "注册失败！");
-					}
-				}
+	public User selectUserByUserName(String userName) {
+		// TODO Auto-generated method stub
+		return ud.selectUserByUserName(userName);
+	}
+	
+	
+	/**
+	 * 登录
+	 */
+	@Override
+	public Result selectUser(User user) {
+		Result result = new Result(ResultStatus.SUCCESS.status,"");
+		
+		User user2 = ud.selectUser(user);
+		if (user2 == null) {
+			result.setStatus(ResultStatus.FAILED.status);
+			result.setMessage("账号或密码错误！");
+			return result;
+		}else {
+			result.setObject(user2);
+		}
+		return result;
 	}
 
 
